@@ -1,10 +1,9 @@
 package lv.lienaritere.youryearsongapp;
 
-import lv.lienaritere.youryearsongapp.spotifyapi.SpotifyApiResponse;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import static lv.lienaritere.youryearsongapp.spotifyapi.SpotifyApiAuthorization.clientCredentials;
+import static lv.lienaritere.youryearsongapp.spotifyapi.client.SpotifyApiClient.clientCredentials;
 
 
 @SpringBootApplication

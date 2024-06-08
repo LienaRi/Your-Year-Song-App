@@ -1,4 +1,5 @@
-package lv.lienaritere.youryearsongapp.spotifyapi;
+package lv.lienaritere.youryearsongapp.spotifyapi.client;
+
 
 import org.apache.hc.core5.http.ParseException;
 import se.michaelthelin.spotify.SpotifyApi;
@@ -8,15 +9,9 @@ import se.michaelthelin.spotify.requests.authorization.client_credentials.Client
 
 import java.io.IOException;
 
-public class SpotifyApiAuthorization {
+public class SpotifyApiClient {
     private static final String clientId = "df680424f12948199cea1c84c62eceb4";
     private static final String clientSecret = "8dfca5a0510d4478804ad1934ebcc69b";
-    private static final String redirectUri = "http://localhost:8080";
-    private static final String authorizationUri = "https://accounts.spotify.com/authorize";
-    private static final String scope = "user-read-email";
-    private static String code = "";
-
-//    private static state =
 
     private static final SpotifyApi spotifyApi = new SpotifyApi.Builder()
             .setClientId(clientId)
@@ -38,4 +33,7 @@ public class SpotifyApiAuthorization {
         }
     }
 
+    public static String getAccessToken() {
+        return spotifyApi.getAccessToken();
+    }
 }
