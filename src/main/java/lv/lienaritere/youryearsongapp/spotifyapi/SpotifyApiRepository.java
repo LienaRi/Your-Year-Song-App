@@ -16,4 +16,12 @@ public class SpotifyApiRepository {
     public Map<String, Integer> getSearchResultsKeeper() {
         return searchResultsKeeper;
     }
+
+    public void addSearchedYear(String year) {
+        if (searchResultsKeeper.containsKey(year)) {
+            searchResultsKeeper.replace(year, searchResultsKeeper.get(year) + 20);
+        } else {
+            searchResultsKeeper.put(year, 20);
+        }
+    }
 }

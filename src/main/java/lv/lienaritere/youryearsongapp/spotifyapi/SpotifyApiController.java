@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.List;
 
 @RestController
 public class SpotifyApiController {
@@ -16,10 +16,9 @@ public class SpotifyApiController {
     }
 
     @GetMapping("/search/{year}")
-    public TrackRendered[] getYear(@PathVariable("year") String year) {
+    public List<TrackRendered> getYear(@PathVariable("year") String year) {
         try {
-            Object[] response = spotifyApiService.searchYear(year);
-            return Arrays.copyOf(response, response.length, TrackRendered[].class);
+            return spotifyApiService.searchYear(year);
         } catch (IOException | SpotifyWebApiException e) {
             throw new RuntimeException(e + "Invalid search");
         }

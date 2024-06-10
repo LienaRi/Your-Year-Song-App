@@ -94,7 +94,7 @@ public class TrackRendered {
 
     @Override
     public String toString() {
-        return "TrackWithSelections{" +
+        return "TrackRendered{" +
                 "albumName='" + albumName + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +
                 ", artists='" + artists + '\'' +

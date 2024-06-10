@@ -24,8 +24,9 @@ public class SpotifyApiService {
         this.spotifyApiRepository = spotifyApiRepository;
     }
 
-    protected Object[] searchYear(String year) throws IOException, SpotifyWebApiException {
+    protected List<TrackRendered> searchYear(String year) throws IOException, SpotifyWebApiException {
         String searchQuery = "year=" + year;
+        spotifyApiRepository.addSearchedYear(year);
 
         SpotifyApi spotifyApi = new SpotifyApi.Builder()
                 .setAccessToken(SpotifyApiClient.getAccessToken())
@@ -33,14 +34,14 @@ public class SpotifyApiService {
 
         SearchTracksRequest searchTracksRequest = spotifyApi.searchTracks(searchQuery)
                 .market(CountryCode.LV)
-                .limit(10)
+                .limit(20)
                 .offset(getOffset(year))
                 .includeExternal("audio")
                 .build();
 
         try {
             Paging<Track> trackPaging = searchTracksRequest.execute();
-            return convertDataToTrack(trackPaging.getItems()).toArray();
+            return convertDataToTrack(trackPaging.getItems());
         } catch (IOException | SpotifyWebApiException | ParseException e) {
             System.out.println("Error: " + e.getMessage());
         }
@@ -50,7 +51,7 @@ public class SpotifyApiService {
     private int getOffset(String year) {
         if (spotifyApiRepository.getSearchResultsKeeper() != null
                 && spotifyApiRepository.getSearchResultsKeeper().containsKey(year))
-            return spotifyApiRepository.getSearchResultsKeeper().get(year) * 10;
+            return spotifyApiRepository.getSearchResultsKeeper().get(year) + 20;
         return 0;
     }
 
