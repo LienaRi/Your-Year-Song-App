@@ -1,7 +1,16 @@
 package lv.lienaritere.youryearsongapp.spotifyapi;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
 public class TrackRendered {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long searchId;
     private String albumName;
     private String imageUrl;
     private String artists;
@@ -10,11 +19,17 @@ public class TrackRendered {
     private Boolean isPlayable;
     private String name;
     private String previewUrl;
+    private String searchedYear;
 
-    public TrackRendered(String albumName, String imageUrl, String artists,
+    public TrackRendered(String albumName,
+                         String imageUrl,
+                         String artists,
                          String externalUrls,
-                         String id, Boolean isPlayable,
-                         String name, String previewUrl) {
+                         String id,
+                         Boolean isPlayable,
+                         String name,
+                         String previewUrl,
+                         String searchedYear) {
         this.albumName = albumName;
         this.imageUrl = imageUrl;
         this.artists = artists;
@@ -23,6 +38,11 @@ public class TrackRendered {
         this.isPlayable = isPlayable;
         this.name = name;
         this.previewUrl = previewUrl;
+        this.searchedYear = searchedYear;
+    }
+
+    public TrackRendered() {
+
     }
 
 
@@ -42,14 +62,6 @@ public class TrackRendered {
         this.imageUrl = imageUrl;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public String getArtists() {
         return artists;
     }
@@ -66,6 +78,13 @@ public class TrackRendered {
         this.externalUrls = externalUrls;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public Boolean getPlayable() {
         return isPlayable;
@@ -91,6 +110,21 @@ public class TrackRendered {
         this.previewUrl = previewUrl;
     }
 
+    public String getSearchedYear() {
+        return searchedYear;
+    }
+
+    public void setYear(String searchedYear) {
+        this.searchedYear = searchedYear;
+    }
+
+    public Long getSearchId() {
+        return searchId;
+    }
+
+    public void setSearchId(Long search_id) {
+        this.searchId = searchId;
+    }
 
     @Override
     public String toString() {
@@ -103,6 +137,7 @@ public class TrackRendered {
                 ", isPlayable=" + isPlayable +
                 ", name='" + name + '\'' +
                 ", previewUrl='" + previewUrl + '\'' +
+                ", searchedYear='" + searchedYear + '\'' +
                 '}';
     }
 }

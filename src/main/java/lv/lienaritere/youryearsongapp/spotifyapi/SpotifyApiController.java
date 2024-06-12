@@ -11,6 +11,7 @@ import java.util.List;
 @RestController
 public class SpotifyApiController {
     SpotifyApiService spotifyApiService;
+
     public SpotifyApiController(SpotifyApiService spotifyApiService) {
         this.spotifyApiService = spotifyApiService;
     }

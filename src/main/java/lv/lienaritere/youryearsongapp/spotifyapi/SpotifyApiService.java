@@ -26,7 +26,6 @@ public class SpotifyApiService {
 
     protected List<TrackRendered> searchYear(String year) throws IOException, SpotifyWebApiException {
         String searchQuery = "year=" + year;
-        spotifyApiRepository.addSearchedYear(year);
 
         SpotifyApi spotifyApi = new SpotifyApi.Builder()
                 .setAccessToken(SpotifyApiClient.getAccessToken())
@@ -41,7 +40,7 @@ public class SpotifyApiService {
 
         try {
             Paging<Track> trackPaging = searchTracksRequest.execute();
-            return convertDataToTrack(trackPaging.getItems());
+            return convertDataToTrack(trackPaging.getItems(), year);
         } catch (IOException | SpotifyWebApiException | ParseException e) {
             System.out.println("Error: " + e.getMessage());
         }
@@ -49,13 +48,14 @@ public class SpotifyApiService {
     }
 
     private int getOffset(String year) {
-        if (spotifyApiRepository.getSearchResultsKeeper() != null
-                && spotifyApiRepository.getSearchResultsKeeper().containsKey(year))
-            return spotifyApiRepository.getSearchResultsKeeper().get(year) + 20;
-        return 0;
+        if (spotifyApiRepository.findAllBySearchedYear(year).isEmpty()) {
+            return 0;
+        } else {
+            return spotifyApiRepository.findAllBySearchedYear(year).size();
+        }
     }
 
-    private List<TrackRendered> convertDataToTrack(Track[] trackArray) {
+    private List<TrackRendered> convertDataToTrack(Track[] trackArray, String year) {
         List<TrackRendered> tracks = new ArrayList<>();
         for (Track track : trackArray) {
             TrackRendered trackOutput = new TrackRendered(
@@ -66,12 +66,12 @@ public class SpotifyApiService {
                     track.getId(),
                     track.getIsPlayable(),
                     track.getName(),
-                    track.getPreviewUrl());
+                    track.getPreviewUrl(),
+                    year);
             tracks.add(trackOutput);
+            spotifyApiRepository.save(trackOutput);
         }
-        for (TrackRendered track : tracks) {
-            System.out.println(track.toString());
-        }
+
         return tracks;
     }
 
